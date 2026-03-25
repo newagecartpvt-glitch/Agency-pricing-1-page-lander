@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Management Proposal | Smart Biz Owner</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary: #0947a6;
+            --primary-light: #eef4ff;
+            --primary-dark: #06337a;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --bg: #ffffff;
+            --surface: #f8fafc;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        /* Nav/Logo */
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .logo {
+            max-width: 280px;
+            height: auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .badge-top {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(32px, 5vw, 42px);
+            font-weight: 800;
+            color: var(--primary-dark);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Metrics Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .m-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 16px;
+            transition: transform 0.2s;
+        }
+
+        .m-card:hover { transform: translateY(-4px); }
+
+        .m-label { font-size: 13px; color: var(--muted); font-weight: 500; margin-bottom: 8px; }
+        .m-value { font-size: 24px; font-weight: 700; color: var(--primary); font-family: 'JetBrains Mono', monospace; }
+        .m-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+        /* Billing Logic */
+        .logic-box {
+            background: var(--primary-dark);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 40px rgba(9, 71, 166, 0.15);
+        }
+
+        .logic-box h2 { font-size: 20px; margin-bottom: 30px; }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .step {
+            display: flex;
+            gap: 15px;
+        }
+
+        .step-num {
+            width: 28px;
+            height: 28px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .step-txt { font-size: 15px; color: rgba(255,255,255,0.9); }
+        .step-txt strong { color: #fff; }
+
+        /* Calculator */
+        .calc-section {
+            background: #fff;
+            border: 2px solid var(--primary-light);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .calc-header { margin-bottom: 30px; }
+        .calc-header h2 { font-size: 22px; color: var(--primary-dark); }
+
+        .slider-container { margin-bottom: 40px; }
+        .slider-head { display: flex; justify-content: space-between; margin-bottom: 15px; }
+        .spend-val { font-size: 28px; font-weight: 800; color: var(--primary); font-family: 'JetBrains Mono'; }
+
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; height: 8px;
+            background: var(--primary-light); border-radius: 5px; outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 24px; height: 24px;
+            background: var(--primary); border-radius: 50%; cursor: pointer;
+            border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .res-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .res-card {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .res-card.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .res-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 8px; }
+        .res-val { font-size: 18px; font-weight: 700; font-family: 'JetBrains Mono'; }
+
+        .calc-msg {
+            margin-top: 25px;
+            text-align: center;
+            padding: 12px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+
+        /* Table */
+        .table-wrap { overflow-x: auto; margin-bottom: 50px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { text-align: left; font-size: 12px; color: var(--muted); padding: 15px; border-bottom: 2px solid var(--border); }
+        td { padding: 18px 15px; border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono'; font-size: 14px; }
+        .tag { background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; font-family: 'Plus Jakarta Sans'; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding-top: 40px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid, .steps, .res-grid { grid-template-columns: 1fr; }
+            .logic-box { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <nav>
+        <img src="SBO LOGO (1).png" alt="Smart Biz Owner" class="logo">
+    </nav>
+
+    <header class="hero">
+        <span class="badge-top">Full Ad Management Proposal</span>
+        <h1>Scale Your Performance,<br>Not Your Management Fees.</h1>
+        <p class="subtitle">A transparent growth partnership where our success is tied directly to your scaling milestones.</p>
+    </header>
+
+    <div class="metrics-grid">
+        <div class="m-card">
+            <div class="m-label">Fixed Retainer</div>
+            <div class="m-value">₹25,000</div>
+            <div class="m-sub">Monthly Base Commitment</div>
+        </div>
+        <div class="m-card">
+            <div class="m-label">Performance Fee</div>
+            <div class="m-value">3.5%</div>
+            <div class="m-sub">Of Total Monthly Ad Spend</div>
+        </div>
+        <div class="m-card">
+            <div class="m-label">Spend Cap</div>
+            <div class="m-value">₹10L</div>
+            <div class="m-sub">Base Coverage Included</div>
+        </div>
+    </div>
+
+    <div class="logic-box">
+        <h2>The Billing Framework</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-txt"><strong>Advance Retainer:</strong> ₹25,000 paid at the start of the month to initiate strategy and management.</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-txt"><strong>Monthly Audit:</strong> We calculate the 3.5% management fee based on actual spend at month-end.</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-txt"><strong>The Credit:</strong> The ₹25,000 retainer acts as a credit against the total management fee.</div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-txt"><strong>Zero Extra:</strong> If your spend-based fee is below ₹25,000, you pay absolutely nothing more.</div>
+            </div>
+        </div>
+    </div>
+
+    <section class="calc-section">
+        <div class="calc-header">
+            <h2>Growth Estimator</h2>
+            <p style="color:var(--muted); font-size: 14px;">Adjust the slider to see how the billing adjusts to your spend.</p>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-head">
+                <span style="font-weight: 600; font-size: 14px;">Projected Monthly Spend</span>
+                <span class="spend-val" id="spend-txt">₹10,00,000</span>
+            </div>
+            <input type="range" id="slider" min="100000" max="2500000" step="50000" value="1000000">
+        </div>
+
+        <div class="res-grid">
+            <div class="res-card">
+                <div class="res-label">Retainer (Paid)</div>
+                <div class="res-val">₹25,000</div>
+            </div>
+            <div class="res-card">
+                <div class="res-label">3.5% Fee Calc</div>
+                <div class="res-val" id="fee-txt">₹35,000</div>
+            </div>
+            <div class="res-card active">
+                <div class="res-label" id="bill-label">Final Adjustment</div>
+                <div class="res-val" id="final-txt" style="color:var(--primary)">₹10,000</div>
+            </div>
+        </div>
+        <div class="calc-msg" id="msg">Monthly spend exceeds retainer coverage. Additional fee applied.</div>
+    </section>
+
+    <div class="table-wrap">
+        <table id="example-table">
+            <thead>
+                <tr>
+                    <th>Monthly Ad Spend</th>
+                    <th>Upfront Paid</th>
+                    <th>Adjustment Bill</th>
+                    <th>Total Agency Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Smart Biz Owner. </p>
+    </footer>
+</div>
+
+<script>
+    const slider = document.getElementById('slider');
+    const spendTxt = document.getElementById('spend-txt');
+    const feeTxt = document.getElementById('fee-txt');
+    const finalTxt = document.getElementById('final-txt');
+    const billLabel = document.getElementById('bill-label');
+    const msg = document.getElementById('msg');
+
+    const RETAINER = 25000;
+    const PERCENT = 0.035;
+
+    function format(val) {
+        return '₹' + Math.round(val).toLocaleString('en-IN');
+    }
+
+    function update() {
+        const spend = parseInt(slider.value);
+        const fee = spend * PERCENT;
+        const adjustment = Math.max(0, fee - RETAINER);
+        
+        spendTxt.innerText = format(spend);
+        feeTxt.innerText = format(fee);
+        finalTxt.innerText = format(adjustment);
+
+        if (fee <= RETAINER) {
+            billLabel.innerText = "Final Adjustment";
+            finalTxt.innerText = "₹0";
+            msg.innerText = "The retainer fully covers your management fee for this spend level.";
+            msg.style.color = "#166534";
+        } else {
+            billLabel.innerText = "Month-End Bill";
+            msg.innerText = "Monthly spend exceeds retainer coverage. Difference billed at month-end.";
+            msg.style.color = "var(--primary-dark)";
+        }
+    }
+
+    function populateTable() {
+        const tbody = document.querySelector('#example-table tbody');
+        const points = [300000, 500000, 1000000, 1500000, 2000000];
+        
+        points.forEach(p => {
+            const fee = p * PERCENT;
+            const adj = Math.max(0, fee - RETAINER);
+            const row = `
+                <tr>
+                    <td style="font-family:'Plus Jakarta Sans'; font-weight:600">${format(p)}</td>
+                    <td>${format(RETAINER)}</td>
+                    <td>${adj === 0 ? '<span class="tag">COVERED</span>' : format(adj)}</td>
+                    <td style="color:var(--primary); font-weight:700">${format(Math.max(RETAINER, fee))}</td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    }
+
+    slider.addEventListener('input', update);
+    update();
+    populateTable();
+</script>
+
+</body>
+</html>
